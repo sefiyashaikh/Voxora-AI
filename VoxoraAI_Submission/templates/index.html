@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f4ff">
+    <title>Voxora AI | Your Voice, Your World</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+    <div class="background-glow glow-three"></div>
+    <div class="particles" id="particleField"></div>
+
+    <header class="navbar">
+        <a class="brand" href="/">
+            <span class="brand-icon"><i class="fa-solid fa-wave-square"></i></span>
+            <span>voxora<span class="brand-accent">.ai</span></span>
+        </a>
+
+        <div class="nav-right">
+            <div class="online-status">
+                <span class="online-dot"></span>
+                <span>VOICE ASSISTANT</span>
+            </div>
+            <a class="nav-about" href="#about" aria-label="About Voxora">
+                <i class="fa-regular fa-circle-question"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="page-container">
+
+        <section class="hero">
+            <div class="hero-label">
+                <span class="label-sparkle"><i class="fa-solid fa-sparkles"></i></span>
+                A NEW WAY TO INTERACT WITH AI
+            </div>
+
+            <h1>Your world.<br><span>Your language. Your voice.</span></h1>
+
+            <p class="hero-description">
+                Meet your multilingual AI companion. Just speak naturally
+                and let Voxora make technology feel more human.
+            </p>
+
+            <div class="hero-tags">
+                <span><i class="fa-solid fa-language"></i> Multilingual</span>
+                <span><i class="fa-solid fa-microphone-lines"></i> Voice-first</span>
+                <span><i class="fa-solid fa-wand-magic-sparkles"></i> AI-powered</span>
+            </div>
+        </section>
+
+        <section class="workspace" id="assistant">
+
+            <div class="workspace-header">
+                <div class="assistant-profile">
+                    <div class="profile-icon">
+                        <i class="fa-solid fa-sparkles"></i>
+                    </div>
+                    <div>
+                        <h2>Voxora Assistant</h2>
+                        <p><span class="profile-online"></span> Here to help you</p>
+                    </div>
+                </div>
+
+                <div class="language-area">
+                    <span class="language-label">CONVERSATION LANGUAGE</span>
+
+                    <div class="language-picker">
+                        <button class="language-button" id="languageTrigger" type="button"
+                                aria-expanded="false">
+                            <i class="fa-solid fa-globe"></i>
+                            <span id="selectedLanguage">Hindi</span>
+                            <i class="fa-solid fa-chevron-down language-arrow"></i>
+                        </button>
+
+                        <div class="language-options" id="languageMenu">
+                            <button type="button" data-value="hi-IN" data-label="Hindi">
+                                <span class="language-symbol">हि</span>
+                                <span>Hindi</span>
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button type="button" data-value="en-IN" data-label="English">
+                                <span class="language-symbol">EN</span>
+                                <span>English</span>
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button type="button" data-value="mr-IN" data-label="Marathi">
+                                <span class="language-symbol">म</span>
+                                <span>Marathi</span>
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <select id="languageSelect" class="hidden-language-select" aria-label="Conversation language">
+                        <option value="hi-IN" selected>Hindi</option>
+                        <option value="en-IN">English</option>
+                        <option value="mr-IN">Marathi</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="voice-stage">
+                <div class="orb-halo"></div>
+                <div class="orb-ring ring-a"></div>
+                <div class="orb-ring ring-b"></div>
+                <div class="orb-ring ring-c"></div>
+
+                <div class="voice-orb" id="voiceOrb">
+                    <div class="orb-inner">
+                        <div class="orb-highlight"></div>
+                        <i class="fa-solid fa-wave-square"></i>
+                    </div>
+                </div>
+
+                <div class="visualizer" id="soundVisualizer" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span>
+                </div>
+
+                <div class="voice-status">
+                    <span class="status-indicator"></span>
+                    <span id="statusText">I'm ready when you are</span>
+                </div>
+
+                <p class="voice-instruction" id="voiceInstruction">
+                    TAP THE MICROPHONE AND START SPEAKING
+                </p>
+            </div>
+
+            <section class="conversation">
+                <div class="conversation-top">
+                    <div>
+                        <span class="conversation-overline">YOUR SPACE</span>
+                        <h3>Conversation</h3>
+                    </div>
+                    <button class="clear-button" id="clearChat" type="button">
+                        <i class="fa-regular fa-trash-can"></i>
+                        Clear chat
+                    </button>
+                </div>
+
+                <div class="messages" id="messages" aria-live="polite">
+                    <div class="message-row assistant-row">
+                        <div class="chat-avatar">
+                            <i class="fa-solid fa-sparkles"></i>
+                        </div>
+                        <div class="message-body">
+                            <div class="message-meta">
+                                <span>Voxora</span>
+                                <time>Now</time>
+                            </div>
+                            <div class="message-bubble assistant-bubble">
+                                Namaste! I'm Voxora, your multilingual voice companion.
+                                You can speak to me in Hindi, English or Marathi.
+                                What's on your mind today?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typingIndicator">
+                    <span></span><span></span><span></span>
+                    <small>Voxora is thinking...</small>
+                </div>
+            </section>
+
+            <div class="composer">
+                <button class="mic-button" id="micButton" type="button"
+                        aria-label="Start voice recording" title="Speak to Voxora">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+
+                <div class="composer-input">
+                    <input
+                        type="text"
+                        id="messageInput"
+                        placeholder="Ask anything or tell Voxora what's on your mind..."
+                        autocomplete="off"
+                    >
+                    <span class="enter-hint">ENTER ↵</span>
+                </div>
+
+                <button class="send-button" id="sendButton" type="button"
+                        aria-label="Send message" title="Send message">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </div>
+
+            <div class="audio-container">
+                <audio id="audioPlayer" controls></audio>
+            </div>
+
+            <div class="privacy-note">
+                <i class="fa-solid fa-shield-halved"></i>
+                Your voice matters. Avoid sharing passwords or sensitive personal information.
+            </div>
+        </section>
+
+        <section class="features" id="about">
+            <div class="features-heading">
+                <span>THE VOXORA EXPERIENCE</span>
+                <h2>Technology that feels more human.</h2>
+                <p>Designed to make communication easier, clearer and more natural.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <div class="feature-icon lavender-icon">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h3>Speak your language</h3>
+                    <p>Switch between Hindi, English and Marathi for a more comfortable conversation.</p>
+                    <span class="feature-number">01</span>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon blue-icon">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <h3>Voice made simple</h3>
+                    <p>Talk naturally, convert speech into text and listen to spoken AI responses.</p>
+                    <span class="feature-number">02</span>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon peach-icon">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>Clearer understanding</h3>
+                    <p>Get helpful explanations in simple language, without unnecessary complexity.</p>
+                    <span class="feature-number">03</span>
+                </article>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <a class="footer-logo" href="/">voxora<span>.ai</span></a>
+            <p>Intelligence That Speaks Your Language.</p>
+            <span>Made for a world that speaks many languages.</span>
+        </footer>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
